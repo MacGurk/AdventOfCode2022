@@ -1,50 +1,27 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
+using System.IO;
 
 namespace AdventOfCode;
 
 public class ElfFoodReader : IEnumerable<Elf>
 {
     private StreamReader reader;
-    private List<Elf> elves = new List<Elf>();
 
     public ElfFoodReader(StreamReader reader)
     {
         this.reader = reader;
-        GetElves();
     }
-
-    private void GetElves()
-    {
-        string line;
-        int parsedCalories;
-        var elf = new Elf();
-        while ((line = reader.ReadLine()) != null)
-        {
-            if (line == "")
-            {
-                elves.Add(elf);
-                elf = new Elf();
-            }
-            else if (int.TryParse(line, out parsedCalories))
-            {
-                elf.CarriedCalories.Add(parsedCalories);
-            }
-        }
-    }
-
-    public int GetElfWithMaxCaloriesOfFood()
-    {
-        return elves.Max(e => e.TotalCalories);
-    }
-
-    // public int GetSumOfTopThreeElvesCaloriesOfFood()
-    // {
-    //     
-    // }
 
     public IEnumerator<Elf> GetEnumerator()
     {
-        return elves.GetEnumerator();
+        var elf = new Elf();
+        var line = reader.ReadLine();
+        if (!string.IsNullOrEmpty(line) && int.TryParse(line, out var parsedCalories))
+        {
+            elf.CarriedCalories.Add(parsedCalories);
+            yield return elf;
+        }
     }
 
     IEnumerator IEnumerable.GetEnumerator()
