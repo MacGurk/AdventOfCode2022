@@ -4,24 +4,25 @@ using System.IO;
 
 namespace AdventOfCode;
 
-public class ElfFoodReader : IEnumerable<Elf>
+public class ElfFoodReader : IEnumerable<int>
 {
-    private StreamReader reader;
+    private readonly StreamReader reader;
 
     public ElfFoodReader(StreamReader reader)
     {
         this.reader = reader;
     }
 
-    public IEnumerator<Elf> GetEnumerator()
+    public IEnumerator<int> GetEnumerator()
     {
-        var elf = new Elf();
         var line = reader.ReadLine();
-        if (!string.IsNullOrEmpty(line) && int.TryParse(line, out var parsedCalories))
+        var total = 0;
+        while (int.TryParse(line, out var calories))
         {
-            elf.CarriedCalories.Add(parsedCalories);
-            yield return elf;
+            total += calories;
+            line = reader.ReadLine();
         }
+        yield return total;
     }
 
     IEnumerator IEnumerable.GetEnumerator()
