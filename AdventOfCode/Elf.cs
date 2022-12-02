@@ -1,14 +1,11 @@
-﻿namespace AdventOfCode;
+﻿using System.Collections.Generic;
+using System.Linq;
+
+namespace AdventOfCode;
 
 public class Elf
 {
-    public List<int> CarriedCalories { get; set; } = new List<int>();
+    public List<int> CarriedCalories { get; set; } = new();
 
-    public int TotalCalories
-    {
-        get
-        {
-            return CarriedCalories.Sum();
-        }
-    }
+    public int TotalCalories => CarriedCalories.Sum();
 }
